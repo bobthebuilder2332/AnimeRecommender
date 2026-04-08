@@ -20,27 +20,31 @@ def get_details():
         # Unpack JSON response and keep relevant data
         data = response.json()['data']
 
-        # Seperate data into variables; use a default with .get() to prevent crashes if missing data
-        title = data.get('title', "Unknown Title")
-        score = data.get('score', "N/A")
-        genres = [g.get('name') for g in data.get('genres', [])]
-        themes = [t.get('name') for t in data.get('themes', [])]
-        demographics = [d.get('name') for d in data.get('demographics', [])]
-        episodes = data.get('episodes', "N/A")
-        synopsis = data.get('synopsis', "No synopsis available.")
+        # In case API response is broken/empty
+        if data:
+            # Seperate data into variables; use a default with .get() to prevent crashes if missing data
+            title = data.get('title', "Unknown Title")
+            score = data.get('score', "N/A")
+            genres = [g.get('name') for g in data.get('genres', [])]
+            themes = [t.get('name') for t in data.get('themes', [])]
+            demographics = [d.get('name') for d in data.get('demographics', [])]
+            episodes = data.get('episodes', "N/A")
+            synopsis = data.get('synopsis', "No synopsis available")
 
-        # Update the result label with the fetched details
-        result_text = (
-            f"Title: {title}\n"
-            f"Score: {score}/10\n"
-            f"Genre: {', '.join(genres)}\n"
-            f"Theme: {', '.join(themes)}\n"
-            f"Demographics: {', '.join(demographics)}\n"
-            f"Episodes: {episodes}\n"
-            f"Synopsis: {synopsis}"
-        )
+            # Update the result label with the fetched details
+            result_text = (
+                f"Title: {title}\n"
+                f"Score: {score}/10\n"
+                f"Genre: {', '.join(genres)}\n"
+                f"Theme: {', '.join(themes)}\n"
+                f"Demographics: {', '.join(demographics)}\n"
+                f"Episodes: {episodes}\n"
+                f"Synopsis: {synopsis}"
+            )
 
-        results_area_left.insert(tk.INSERT, result_text) # Insert the result text into the text widget
+            results_area_left.insert(tk.INSERT, result_text) # Insert the result text into the text widget
+        else:
+            results_area_left.insert(tk.INSERT, "No data found")
     else:
         results_area_left.insert(tk.INSERT, f"Error: {response.status_code}") # If the API request fails, display the error code in the text widget
 
@@ -60,13 +64,16 @@ def get_recommendations():
         data = response.json()['data']
         recommendations = []
 
-        for item in data[:15]: # Limit to top 15 recommendations
-            title = item['entry']['title']
-            recommendations.append(title)
+        if data:
+            for item in data[:15]: # Limit to top 15 recommendations
+                title = item['entry']['title']
+                recommendations.append(title)
 
-        result_text = "\n".join(f" - {r}" for r in recommendations)
+            result_text = "\n".join(f" - {r}" for r in recommendations)
 
-        results_area_right.insert(tk.INSERT, result_text)
+            results_area_right.insert(tk.INSERT, result_text)
+        else:
+            results_area_right.insert(tk.INSERT, "No recommendations found")
     else:
         results_area_right.insert(tk.INSERT, f"Error: {response.status_code}")
     
