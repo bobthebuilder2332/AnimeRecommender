@@ -31,15 +31,20 @@ def get_details():
             episodes = data.get('episodes', "N/A")
             synopsis = data.get('synopsis', "No synopsis available")
 
+            # Refining lists for readability; if list is empty, set to "N/A"
+            genres = ", ".join(genres)  if genres else "N/A"
+            themes = ", ".join(themes) if themes else "N/A"
+            demographics = ", ".join(demographics) if demographics else "N/A"
+
             # Update the result label with the fetched details
             result_text = (
                 f"Title: {title}\n"
                 f"Score: {score}/10\n"
-                f"Genre: {', '.join(genres)}\n"
-                f"Theme: {', '.join(themes)}\n"
-                f"Demographics: {', '.join(demographics)}\n"
+                f"Genre: {genres}\n"
+                f"Theme: {themes}\n"
+                f"Demographics: {demographics}\n"
                 f"Episodes: {episodes}\n"
-                f"Synopsis: {synopsis}"
+                f"Synopsis:\n{synopsis}"
             )
 
             results_area_left.insert(tk.INSERT, result_text) # Insert the result text into the text widget
@@ -65,7 +70,7 @@ def get_recommendations():
         recommendations = []
 
         if data:
-            for item in data[:15]: # Limit to top 15 recommendations
+            for item in data[:40]: # Limit to top 40 recommendations
                 title = item['entry']['title']
                 recommendations.append(title)
 
