@@ -105,7 +105,7 @@ right_frame.pack(side = "right", fill = "both", expand = True, padx = 10, pady =
 lbl_title_left = tk.Label(left_frame, text = "Anime Details") # Creates label
 lbl_title_left.pack(pady = 10)
 
-lbl_instruction_left = tk.Label(left_frame, text = "Enter Anime ID:")
+lbl_instruction_left = tk.Label(left_frame, text = "Enter MyAnimeList ID:")
 lbl_instruction_left.pack(pady = 5)
 
 entry_left = tk.Entry(left_frame) # Creates an entry widget for user input
@@ -122,7 +122,7 @@ results_area_left.config(state = 'disabled')
 lbl_title_right = tk.Label(right_frame, text = "Anime Recommendations")
 lbl_title_right.pack(pady = 10)
 
-lbl_instruction_right = tk.Label(right_frame, text = "Enter Anime ID:")
+lbl_instruction_right = tk.Label(right_frame, text = "Enter MyAnimeList ID:")
 lbl_instruction_right.pack(pady = 5)
 
 entry_right = tk.Entry(right_frame)
